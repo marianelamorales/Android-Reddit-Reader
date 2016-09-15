@@ -1,5 +1,6 @@
 package famaf.unc.edu.ar.activitiesassignment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,11 +36,26 @@ public class NewsActivity extends AppCompatActivity {
         if (id == R.id.action_sign_in) {
             NewsActivityFragment newsfragment = (NewsActivityFragment)
                     getSupportFragmentManager().findFragmentById(R.id.news_activity_fragment_id);
-            TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-            textView.setText("User XXXX logged in");
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent,1);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                String email = data.getStringExtra("EMAIL");
+                TextView textView =(TextView) findViewById(R.id.loginStatusTextView);
+                textView.setText("Usuario: " + email +" " + "logueado");
+            } else {
+                TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
+                textView.setText("Error al loguearse");
+            }
+        }
+
     }
 }
